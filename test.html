@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang = "en-US">
+<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
+</script>
+
+<body>
+
+<!--  <div ng-app = "" ng-init = "lastName = 'Bond'">
+    <h1>Hello, Mr. <span ng-bind = "lastName"></span></h1>
+  </div> -->
+
+<!-- <div ng-app="myApp" ng-controller="myCtrl">
+
+First Name: <input type="text" ng-model="firstName"><br>
+Last Name: <input type="text" ng-model="lastName"><br>
+<br>
+Full Name: {{firstName + " " + lastName}}
+
+</div> -->
+
+<!--
+<div ng-app = "myApp" ng-controller = "myCtrl">
+
+  First Name: <input type = "text" ng-model = "firstName"><br>
+  Last Name: <input type = "text" ng-model = "lastName"><br>
+  <br>
+  {{firstName + lastName}}
+
+</div>
+-->
+
+<!--<<input type="text" ng-model="monthlyPayment" ng-bind="calculateMonthlyPayment ()" min="0" max="1000000" /-->
+
+<!--<div ng-app="FE" ng-controller="FEcontroller" ng-init: "beta = 0">
+  <p>Beta: <input type="number" ng-model = "beta"></p>
+  <button ng-click="calculateCAPM(beta)">Calculate RE</button>
+  <p>Expected return: {{CAPMtotal}}</p>
+</div>
+
+<script>
+  var app = angular.module("FE", []);
+  app.controller("FEcontroller", function($scope) {
+    $scope.riskfree = 0.0082;
+    $scope.marketret = 0.07;
+    $scope.CAPMtotal = 0;
+
+    $scope.calculateCAPM = function(beta) {
+    $scope.CAPMtotal = ($scope.riskfree + $scope.beta*($scope.marketret - $scope.riskfree));
+    return $scope.CAPMtotal;
+  }
+  });
+
+</script>-->
+
+<!--<script>
+  var app = angular.module("FE", []);
+  app.controller("myCtrl", function($scope) {
+       $scope.riskfree = 0.0082;
+       $scope.marketret = 0.07;
+       $scope.CAPMtotal = 0;
+
+       $scope.calculateCAPM = function(beta) {
+       $scope.CAPMtotal = ($scope.riskfree + $scope.beta*($scope.marketret - $scope.riskfree));
+       return $scope.CAPMtotal;
+    }
+  });
+</script>-->
+
+<div ng-app = "FE" ng-controller = "FE-controller" ng-init "beta=0">
+  STCK: <input type = "name" ng-model = "ticker"><br>
+  BETA: <input type = "number" ng-model = "beta"><br>
+  STDEV: <input type = "number" ng-model = "stdev"><br>
+  <button ng-click = "calculateCAPM(beta)">Calculate</button><br>
+  <br>
+  Calculated Expected Return: {{CAPMtotal | number: 2}}%
+  <button ng-click = "saveCAPM(CAPMtotal, ticker, stdev)">Save</button><br>
+  <br>Stored REs: {{savedRets}}
+  <br>Stored Stocks: {{savedStocks}}
+  <br>Stored Stdevs: {{storedStdev}}
+  <br><br>
+
+  <h3> How much do you want to invest in {{savedStocks[0]}}?</h3>
+  WEIGHT of Stock {{savedStocks[0]}}: <input type = "number" ng-model = "stockAweight"><br>
+  <br><button ng-click = "calculateRE(stockAweight, storedStdev, correlcoeff)">Calculate Best PF</button>
+
+  <br><br>
+  {{savedStocks[0]}} Weighted Return = {{Aweightret | number: 2}}%<br>
+  {{savedStocks[1]}} Weighted Return  = {{Bweightret | number: 2}}%<br>
+  Total Portolio Return = {{(Aweightret + Bweightret) | number: 2}}%<br>
+
+  <h3>How much do you weigh?</h3>
+  <input type="number" ng-model="userweight" placeholder="...">  pounds <br>
+  <br><h3>How much alcohol have you had?</h3>
+  <input type="number" ng-model="beers" placeholder="0"> beer cans <br>
+  <input type="number" ng-model="shots" placeholder="0"> vodka/whiskey shots <br>
+  <input type="number" ng-model="glasses" placeholder="0"> glasses of wine <br>
+  <br><br><button ng-click = "calculateBAC()">Submit</button>
+
+  <br><br>
+  Your Weight:  {{userweight}} pounds<br>
+  Your Height: {{userheight}} feet<br>
+  Beers Drunk: {{beers}}<br>
+  Shots Taken: {{shots}}<br>
+  Wine Drunk: {{glasses}}<br>
+  Blood Alcohol Level: {{bactotal}}%
+
+</div>
+
+<script>
+var app = angular.module("FE", []);
+app.controller("FE-controller", function($scope) {
+  $scope.riskfree = 0.0082;
+  $scope.marketret = 0.07;
+  $scope.CAPMtotal = 0;
+  $scope.savedRets = [];
+  $scope.savedStocks = [];
+  $scope.storedStdev = [];
+  $scope.Aweightret = 0;
+  $scope.Bweightret = 0;
+  $scope.PFvariance = 0;
+  $scope.bactotal = 0;
+  $scope.weights = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+
+  $scope.userweightarr = [];
+  $scope.userheightarr = [];
+
+  $scope.calculateCAPM = function(beta) {
+    $scope.CAPMtotal = ($scope.riskfree + beta * ($scope.marketret - $scope.riskfree)) * 100;
+    return $scope.CAPMtotal;
+  }
+
+  $scope.saveCAPM = function(CAPMtotal, ticker, stdev) {
+    $scope.savedRets.push(CAPMtotal);
+    $scope.savedStocks.push(ticker);
+    $scope.storedStdev.push(stdev);
+  }
+
+//double variance = ((Math.pow(x, 2)*Math.pow(stdevA, 2))+(Math.pow(reverseweight, 2)*(Math.pow(stdevB, 2)) + (2*x*reverseweight*stdevA*stdevB*corrcoeff)));
+
+
+  $scope.calculateRE = function(stockweightA) {
+    $scope.Aweightret = $scope.savedRets[0] * stockweightA;
+    $scope.Bweightret = $scope.savedRets[1] * (1 - stockweightA);
+  }
+
+  $scope.calculateBAC = function() {
+    var totaldrinks = $scope.beers + $scope.shots + $scope.glasses;
+
+    if ($scope.userweight >= 100 && $scope.userweight < 120) {
+      if ((totaldrinks) <= 2) {
+        $scope.bactotal = 0.04* (totaldrinks);
+      }
+    }
+    else if ($scope.userweight >= 120 && $scope.userweight <= 140) {
+      if (totaldrinks <= 4) {
+      $scope.bactotal = 0.03* totaldrinks;
+      }
+      else if (totaldrinks > 4) {
+        $scope.bactotal = 0.03*totaldrinks + 0.01;
+      }
+    }
+
+    else {
+    $scope.bactotal = 10000;
+  }
+  }
+
+});
+
+</script>
+
+
+
+</body>
+
+</html>

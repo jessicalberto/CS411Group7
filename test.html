@@ -1,95 +1,15 @@
 <!DOCTYPE html>
-<html lang = "en-US">
-<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
-</script>
+<head>
+  <html lang = "en-US">
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
 
 <body>
 
-<!--  <div ng-app = "" ng-init = "lastName = 'Bond'">
-    <h1>Hello, Mr. <span ng-bind = "lastName"></span></h1>
-  </div> -->
-
-<!-- <div ng-app="myApp" ng-controller="myCtrl">
-
-First Name: <input type="text" ng-model="firstName"><br>
-Last Name: <input type="text" ng-model="lastName"><br>
-<br>
-Full Name: {{firstName + " " + lastName}}
-
-</div> -->
-
-<!--
-<div ng-app = "myApp" ng-controller = "myCtrl">
-
-  First Name: <input type = "text" ng-model = "firstName"><br>
-  Last Name: <input type = "text" ng-model = "lastName"><br>
-  <br>
-  {{firstName + lastName}}
-
-</div>
--->
-
-<!--<<input type="text" ng-model="monthlyPayment" ng-bind="calculateMonthlyPayment ()" min="0" max="1000000" /-->
-
-<!--<div ng-app="FE" ng-controller="FEcontroller" ng-init: "beta = 0">
-  <p>Beta: <input type="number" ng-model = "beta"></p>
-  <button ng-click="calculateCAPM(beta)">Calculate RE</button>
-  <p>Expected return: {{CAPMtotal}}</p>
-</div>
-
-<script>
-  var app = angular.module("FE", []);
-  app.controller("FEcontroller", function($scope) {
-    $scope.riskfree = 0.0082;
-    $scope.marketret = 0.07;
-    $scope.CAPMtotal = 0;
-
-    $scope.calculateCAPM = function(beta) {
-    $scope.CAPMtotal = ($scope.riskfree + $scope.beta*($scope.marketret - $scope.riskfree));
-    return $scope.CAPMtotal;
-  }
-  });
-
-</script>-->
-
-<!--<script>
-  var app = angular.module("FE", []);
-  app.controller("myCtrl", function($scope) {
-       $scope.riskfree = 0.0082;
-       $scope.marketret = 0.07;
-       $scope.CAPMtotal = 0;
-
-       $scope.calculateCAPM = function(beta) {
-       $scope.CAPMtotal = ($scope.riskfree + $scope.beta*($scope.marketret - $scope.riskfree));
-       return $scope.CAPMtotal;
-    }
-  });
-</script>-->
-
 <div ng-app = "FE" ng-controller = "FE-controller" ng-init "beta=0">
-  STCK: <input type = "name" ng-model = "ticker"><br>
-  BETA: <input type = "number" ng-model = "beta"><br>
-  STDEV: <input type = "number" ng-model = "stdev"><br>
-  <button ng-click = "calculateCAPM(beta)">Calculate</button><br>
-  <br>
-  Calculated Expected Return: {{CAPMtotal | number: 2}}%
-  <button ng-click = "saveCAPM(CAPMtotal, ticker, stdev)">Save</button><br>
-  <br>Stored REs: {{savedRets}}
-  <br>Stored Stocks: {{savedStocks}}
-  <br>Stored Stdevs: {{storedStdev}}
-  <br><br>
 
-  <h3> How much do you want to invest in {{savedStocks[0]}}?</h3>
-  WEIGHT of Stock {{savedStocks[0]}}: <input type = "number" ng-model = "stockAweight"><br>
-  <br><button ng-click = "calculateRE(stockAweight, storedStdev, correlcoeff)">Calculate Best PF</button>
-
-  <br><br>
-  {{savedStocks[0]}} Weighted Return = {{Aweightret | number: 2}}%<br>
-  {{savedStocks[1]}} Weighted Return  = {{Bweightret | number: 2}}%<br>
-  Total Portolio Return = {{(Aweightret + Bweightret) | number: 2}}%<br>
-
-  <h3>How much do you weigh?</h3>
-  <input type="number" ng-model="userweight" placeholder="...">  pounds <br>
   <br><h3>How much alcohol have you had?</h3>
   <input type="number" ng-model="beers" placeholder="0"> beer cans <br>
   <input type="number" ng-model="shots" placeholder="0"> vodka/whiskey shots <br>
@@ -102,46 +22,152 @@ Full Name: {{firstName + " " + lastName}}
   Beers Drunk: {{beers}}<br>
   Shots Taken: {{shots}}<br>
   Wine Drunk: {{glasses}}<br>
-  Blood Alcohol Level: {{bactotal}}%
+  Blood Alcohol Level: {{bactotal | number: 2}}%<br>
+
+  <center>
+  <h3>How much do you weigh?</h3>
+  <input type="number" ng-model="userweight" placeholder="...">  pounds <br>
+  </center>
+
+  <center><h2>How stage of drunkenness do you want to achieve?</h2>
+
+  <button class="btn btn-success btn-lg" ng-mouseover="hoverRelax()" ng-mouseleave="hoverOutRelax()" ng-click="displayrelax()"> Relaxed</button>
+  <button class="btn btn-info btn-lg" ng-mouseover="hoverBuzz()" ng-mouseleave="hoverOutBuzz()" ng-click="displaybuzz()">Buzzed</button>
+  <button class="btn btn-warning btn-lg" ng-mouseover="hoverTipsy()" ng-mouseleave="hoverOutTipsy()" ng-click="displaytispy()">Tispy</button>
+  <button class="btn btn-danger btn-lg" ng-mouseover="hoverDrunk()" ng-mouseleave="hoverOutDrunk()" ng-click="displaydrunk()">Wasted</button>
+  <span ng-show="hoverRelaxmsg"><a><br><br>" Alcohol reliably reduces the body's physiological stress response. But you may need to get drunk to get that benefit every time, so it's... uh, not a good de-stressing strategy for the long run. Plus, alcohol isn't metabolized like other foods and drinks.</a></span>
+  <span ng-show="hoverBuzzmsg"><a><br><br>"The Old Drunkard is a female seated statue from the Hellenistic period, which survives in two Roman marble copies. The original was probably also made of marble. This genre sculpture is notable for its stark realism."</a></span>
+  <span ng-show="Tipsymsg"><a><br><br>"The copy in Munich is dated to the first century AD and is considered the better copy. The Capitoline copy is dated to the second century AD. A third copy in terracotta is stored in the Villa Romana del Casale in Piazza Armerina, Sicily; it was found in the necropolis of Montagna di Marzo in Piazza Armerina and its head has been reconstructed in line with the Capitoline example.[3]"</a></span>
+  <span ng-show="Drunkmsg"><a><br><br>"Pizza is a yeasted flatbread generally topped with tomato sauce and cheese and baked in an oven. It is commonly topped with a selection of meats, vegetables and condiments. The term was first recorded in the 10th century, in a Latin manuscript from Gaeta in Central Italy.[1] The modern pizza was invented in Naples, Italy, and the dish and its variants have since become popular and common in many areas of the world."></a></span>
+
+  <br><br>
+
+<div class="row">
+  <h3>Amount Needed to Achieve</h3>
+  <div class="col-sm-4"><h2>{{display}}<br> <img ng-src ={{beerpic}}></h3></div>
+  <div class="col-sm-4"><h2>{{display}}<br> <img ng-src={{shotspic}}></h3></div>
+  <div class="col-sm-4"><h2>{{display}}<br> <img ng-src={{winepic}}></h3></div>
+</div>
+  </center>
 
 </div>
 
 <script>
 var app = angular.module("FE", []);
 app.controller("FE-controller", function($scope) {
-  $scope.riskfree = 0.0082;
-  $scope.marketret = 0.07;
-  $scope.CAPMtotal = 0;
-  $scope.savedRets = [];
-  $scope.savedStocks = [];
-  $scope.storedStdev = [];
-  $scope.Aweightret = 0;
-  $scope.Bweightret = 0;
-  $scope.PFvariance = 0;
-  $scope.bactotal = 0;
-  $scope.weights = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
 
-  $scope.userweightarr = [];
-  $scope.userheightarr = [];
+  $scope.display="NAN";
+  $scope.recshots = 0;
+  $scope.recbeers = 0;
+  $scope.recglasses = 0;
 
-  $scope.calculateCAPM = function(beta) {
-    $scope.CAPMtotal = ($scope.riskfree + beta * ($scope.marketret - $scope.riskfree)) * 100;
-    return $scope.CAPMtotal;
+  $scope.beerpic = "file:///Users/yishanlin/Desktop/Projects/angular/assets/Screen%20Shot%202017-02-23%20at%2015.12.29.png";
+  $scope.shotspic = "file:///Users/yishanlin/Desktop/Projects/angular/assets/3d704f073ecdcd214c965f77a865e6c7.jpg";
+  $scope.winepic = "file:///Users/yishanlin/Desktop/Projects/angular/assets/wine-glass-outline-filled.png";
+
+  //100-120 0.5 for relaxed, 1 for buzzed/tipsy, 2+ for drunk
+  //120-140 1 for relaxed, 2 for buzzed/tipsy, 3+ for drunk
+  //140-160 1 for relaxed, 2-3 for buzzed/tipsy, 4 for drunk
+  //180-200 1-2 for relaxd, 3-4 for buzzed/tipsy, 4+ for drunk
+  //220-240+ 1-2 for relaxed, 2-3 for buzzed, 3-4 for tipsy, 5+ drinks for drunk
+
+  $scope.hoverRelax = function(){
+    this.hoverRelaxmsg = true;
+  };
+  $scope.hoverOutRelax = function(){
+    this.hoverRelaxmsg = false;
+  };
+
+  $scope.hoverBuzz = function() {
+    this.hoverBuzzmsg = true;
+  };
+  $scope.hoverOutBuzz = function() {
+    this.hoverBuzzmsg = false;
+  };
+  $scope.hoverTipsy = function() {
+    this.Tipsymsg = true;
+  };
+  $scope.hoverOutTipsy = function() {
+    this.Tipsymsg = false;
+  }
+  $scope.hoverDrunk = function() {
+    this.Drunkmsg = true;
+  };
+  $scope.hoverOutDrunk = function() {
+    this.Drunkmsg = false;
+  };
+
+  $scope.displayrelax = function() {
+    if ($scope.userweight >= 100 && $scope.userweight < 120) {
+      $scope.display = "0 to 0.5";
+    }
+    else if ($scope.userweight >= 120 && $scope.userweight < 140) {
+      $scope.display = "1";
+    }
+    else if ($scope.userweight >= 140 && $scope.userweight < 160) {
+      $scope.display = "1";
+    }
+    else if ($scope.userweight >= 180 && $scope.userweight < 200) {
+      $scope.display = "1 to 2";
+    }
+    else {
+      $scope.display = "1 to 2";
+    }
   }
 
-  $scope.saveCAPM = function(CAPMtotal, ticker, stdev) {
-    $scope.savedRets.push(CAPMtotal);
-    $scope.savedStocks.push(ticker);
-    $scope.storedStdev.push(stdev);
-  }
+  $scope.displaybuzz = function() {
+      if ($scope.userweight >= 100 && $scope.userweight < 120) {
+        $scope.display = "1";
+      }
+      else if ($scope.userweight >= 120 && $scope.userweight < 140) {
+        $scope.display = "2";
+      }
+      else if ($scope.userweight >= 140 && $scope.userweight < 160) {
+        $scope.display = "2 to 3";
+      }
+      else if ($scope.userweight >= 180 && $scope.userweight < 200) {
+        $scope.display = "2 to 3";
+      }
+      else {
+        $scope.display = "2 to 4";
+      }
+    }
 
-//double variance = ((Math.pow(x, 2)*Math.pow(stdevA, 2))+(Math.pow(reverseweight, 2)*(Math.pow(stdevB, 2)) + (2*x*reverseweight*stdevA*stdevB*corrcoeff)));
+    $scope.displaytipsy = function() {
+        if ($scope.userweight >= 100 && $scope.userweight < 120) {
+          $scope.display = "1";
+        }
+        else if ($scope.userweight >= 120 && $scope.userweight < 140) {
+          $scope.display = "2";
+        }
+        else if ($scope.userweight >= 140 && $scope.userweight < 160) {
+          $scope.display = "2 to 3";
+        }
+        else if ($scope.userweight >= 180 && $scope.userweight < 200) {
+          $scope.display = "3 to 4";
+        }
+        else {
+          $scope.display = "3 to 4";
+        }
+      }
 
-
-  $scope.calculateRE = function(stockweightA) {
-    $scope.Aweightret = $scope.savedRets[0] * stockweightA;
-    $scope.Bweightret = $scope.savedRets[1] * (1 - stockweightA);
-  }
+      $scope.displaydrunk = function() {
+          if ($scope.userweight >= 100 && $scope.userweight < 120) {
+            $scope.display = "2+";
+          }
+          else if ($scope.userweight >= 120 && $scope.userweight < 140) {
+            $scope.display = "3+";
+          }
+          else if ($scope.userweight >= 140 && $scope.userweight < 160) {
+            $scope.display = "4";
+          }
+          else if ($scope.userweight >= 180 && $scope.userweight < 200) {
+            $scope.display = "4+";
+          }
+          else {
+            $scope.display = "5+";
+          }
+        }
 
   $scope.calculateBAC = function() {
     var totaldrinks = $scope.beers + $scope.shots + $scope.glasses;
@@ -149,6 +175,12 @@ app.controller("FE-controller", function($scope) {
     if ($scope.userweight >= 100 && $scope.userweight < 120) {
       if ((totaldrinks) <= 2) {
         $scope.bactotal = 0.04* (totaldrinks);
+      }
+      else if ((totaldrinks) <= 6 && totaldrinks > 2){
+        $scope.bactotal = (0.04*totaldrinks) - 0.01;
+      }
+      else if (totaldrinks > 6) {
+        $scope.bactotal = (0.04*totaldrinks) - 0.02;
       }
     }
     else if ($scope.userweight >= 120 && $scope.userweight <= 140) {
@@ -162,13 +194,14 @@ app.controller("FE-controller", function($scope) {
 
     else {
     $scope.bactotal = 10000;
-  }
+    }
   }
 
 });
 
 </script>
 
+<!-- for some JQUERY shit to make mouse hoverover button-->
 
 
 </body>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+  <html lang = "en-US">
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src = "controller.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<div class ="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><img alt="Brand" src = "https://d30y9cdsu7xlg0.cloudfront.net/png/106424-200.png" width="42" height="42"></a>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class= "active"><a href="/">Home</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<div ng-app = "myApp" ng-controller = "myApp-Ctrl" ng-init "beta=0">
+
+  <br><h3>How much alcohol have you had?</h3>
+  <input type="number" ng-model="beers" placeholder="0"> beer cans <br>
+  <input type="number" ng-model="shots" placeholder="0"> vodka/whiskey shots <br>
+  <input type="number" ng-model="glasses" placeholder="0"> glasses of wine <br>
+  <br><br><button ng-click = "calculateBAC()">Submit</button>
+
+  <br><br>
+  Your Weight:  {{userweight}} pounds<br>
+  Your Height: {{userheight}} feet<br>
+  Beers Drunk: {{beers}}<br>
+  Shots Taken: {{shots}}<br>
+  Wine Drunk: {{glasses}}<br>
+  Blood Alcohol Level: {{bactotal | number: 2}}%<br>
+
+  <center>
+  <h3>How much do you weigh?</h3>
+  <input type="number" ng-model="userweight" placeholder="...">  pounds <br>
+
+  <h2>How stage of drunkenness do you want to achieve?</h2>
+
+  <button class="btn btn-success btn-lg" ng-mouseover="hoverRelax()" ng-mouseleave="hoverOutRelax()" ng-click="displayrelax()"> Relaxed</button>
+  <button class="btn btn-info btn-lg" ng-mouseover="hoverBuzz()" ng-mouseleave="hoverOutBuzz()" ng-click="displaybuzz()">Buzzed</button>
+  <button class="btn btn-warning btn-lg" ng-mouseover="hoverTipsy()" ng-mouseleave="hoverOutTipsy()" ng-click="displaytipsy()">Tispy</button>
+  <button class="btn btn-danger btn-lg" ng-mouseover="hoverDrunk()" ng-mouseleave="hoverOutDrunk()" ng-click="displaydrunk()">Wasted</button>
+  <span ng-show="hoverRelaxmsg"><a><br><br>" Alcohol reliably reduces the body's physiological stress response. But you may need to get drunk to get that benefit every time, so it's... uh, not a good de-stressing strategy for the long run. Plus, alcohol isn't metabolized like other foods and drinks.</a></span>
+  <span ng-show="hoverBuzzmsg"><a><br><br>"The Old Drunkard is a female seated statue from the Hellenistic period, which survives in two Roman marble copies. The original was probably also made of marble. This genre sculpture is notable for its stark realism."</a></span>
+  <span ng-show="Tipsymsg"><a><br><br>"The copy in Munich is dated to the first century AD and is considered the better copy. The Capitoline copy is dated to the second century AD. A third copy in terracotta is stored in the Villa Romana del Casale in Piazza Armerina, Sicily; it was found in the necropolis of Montagna di Marzo in Piazza Armerina and its head has been reconstructed in line with the Capitoline example.[3]"</a></span>
+  <span ng-show="Drunkmsg"><a><br><br>"Pizza is a yeasted flatbread generally topped with tomato sauce and cheese and baked in an oven. It is commonly topped with a selection of meats, vegetables and condiments. The term was first recorded in the 10th century, in a Latin manuscript from Gaeta in Central Italy.[1] The modern pizza was invented in Naples, Italy, and the dish and its variants have since become popular and common in many areas of the world."></a></span>
+
+  <br><br>
+
+<div class="row">
+  <h3>Amount Needed to Achieve</h3>
+  <div class="col-sm-4"><h2>{{display}}<br> <img ng-src ={{beerpic}} width="150" height="150"></h3></div>
+  <div class="col-sm-4"><h2>{{display}}<br> <img ng-src={{shotspic}} width="150" height="150"></h3></div>
+  <div class="col-sm-4"><h2>{{display}}<br> <img ng-src={{winepic}} widht="150" height="150"></h3></div>
+</div>
+  </center>
+
+<center>
+
+  <h3>Enter your name, weight, and your favorite drink.</h3><br>
+
+<form action = "/userlist" method = "POST">
+  <label for ="username">Name:</label><br>
+  <input type="text" placeholder="What should we call you?" name="name"><br><br>
+  <label for="userweight">Weight:</label><br>
+  <input type="number" placeholder="How much do you weigh (roughly) in lbs?" name="weight"><br><br>
+  <label for="favdrink">Favorite Drink:</label><br>
+  <input type="text" placeholder="What's your favorite drink?" name="favdrink"><br><br>
+  <button class = "btn btn-info btn-mid" ngclick="adduser()">Submit</button>
+</form>
+
+</center>
+
+<br><br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Weight</th>
+      <th>Favorite Drink</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in userlist">
+      <td>{{user.name}}</td>
+      <td>{{user.weight}}</td>
+      <td>{{user.favdrink}}</td>
+    </tr>
+</table>
+
+
+
+</div>
+
+</body>
+
+</html>

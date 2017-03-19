@@ -1,0 +1,14 @@
+{
+  "name": "prototypeapi",
+  "version": "1.0.0",
+  "description": "perry donham's assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "megan, jessica, yishan, harry",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}

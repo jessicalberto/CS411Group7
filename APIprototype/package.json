@@ -10,6 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.1",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "node-yelp-v3": "^2.3.0",
+    "yelp": "^1.0.2",
+    "yelp-fusion": "^1.0.3"
   }
 }

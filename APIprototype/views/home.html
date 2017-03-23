@@ -6,6 +6,24 @@
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 </head>
 
+<!-- controller later to be migrated in separate file -->
+
+<script>
+
+  var myApp = angular.module("myApp", []);
+  myApp.controller("myAppCtrl", ["$scope", "$http", function($scope, $http) {
+
+    $scope.beeramt = 5;
+    $scope.wineamt = 3;
+    $scope.cocktailamt = 6;
+    $scope.exoticamt = 4;
+
+  }]);
+
+</script>
+
+<div ng-app="myApp" ng-controller="myAppCtrl">
+
 <body>
 <center>
   <h1>Team 7 Drinking App</h1>
@@ -20,10 +38,16 @@
   </h4>
 <br>
 
-  <img src = "https://www.emojibase.com/resources/img/emojis/apple/x1f37a.png.pagespeed.ic.BvtGLK8p4U.png" width="55" height="55"></div>
-  <img src= "https://www.emojibase.com/resources/img/emojis/apple/x1f377.png.pagespeed.ic.Y4pP3pJvP7.png" width="55" height="55"></div>
-  <img src= "http://emojipedia-us.s3.amazonaws.com/cache/75/b5/75b5b7de7d3fbd44b5463325f21e3f84.png" width="55" height="55"></div>
-  <img src="http://emojipedia-us.s3.amazonaws.com/cache/8d/a0/8da04eba0f33cdcc0a503b48b708d548.png" width="55" height="55"></div>
+<h3>How drunk are you looking to get tonight?</h3><br>
+
+<div class="row">
+  <div class="col-sm-3"><img src = "https://www.emojibase.com/resources/img/emojis/apple/x1f37a.png.pagespeed.ic.BvtGLK8p4U.png" width="55" height="55"><h2>{{beeramt}}</h2></div>
+  <div class="col-sm-3"><img src= "https://www.emojibase.com/resources/img/emojis/apple/x1f377.png.pagespeed.ic.Y4pP3pJvP7.png" width="55" height="55"><h2>{{wineamt}}</h2></div>
+  <div class="col-sm-3"><img src= "http://emojipedia-us.s3.amazonaws.com/cache/75/b5/75b5b7de7d3fbd44b5463325f21e3f84.png" width="55" height="55"><h2>{{cocktailamt}}</h2></div>
+  <div class="col-sm-3"><img src="http://emojipedia-us.s3.amazonaws.com/cache/8d/a0/8da04eba0f33cdcc0a503b48b708d548.png" width="55" height="55"><h2>{{exoticamt}}</h2></div>
+</div>
+
 
 </center>
 </body>
+</div>

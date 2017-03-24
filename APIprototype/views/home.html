@@ -18,6 +18,31 @@
     $scope.cocktailamt = 6;
     $scope.exoticamt = 4;
 
+    $scope.hoverBuzzed = function() {
+      this.hoverBuzzedmsg = true;
+    }
+    $scope.hoverOutBuzzed = function() {
+      this.hoverBuzzedmsg = false;
+    }
+    $scope.hoverTipsy = function() {
+      this.hoverTipsymsg = true;
+    }
+    $scope.hoverOutTipsy = function() {
+      this.hoverTipsymsg = false;
+    }
+    $scope.hoverDrunk = function() {
+      this.hoverDrunkmsg = true;
+    }
+    $scope.hoverOutDrunk = function() {
+      this.hoverDrunkmsg = false;
+    }
+    $scope.hoverHammered = function() {
+      this.hoverHammeredmsg = true;
+    }
+    $scope.hoverOutHammered = function() {
+      this.hoverHammeredmsg = false;
+    }
+
   }]);
 
 </script>
@@ -43,13 +68,22 @@
 <h3>How drunk are you looking to get tonight?</h3><br>
 
 <div class="drunkstages">
-  <button class ="btn btn-lg btn-primary">Buzzed</button>
-  <button class ="btn btn-lg btn-info">Tipsy</button>
-  <button class="btn btn-lg btn-warning">Drunk</button>
-  <button class ="btn btn-lg btn-danger">Hammered</button>
+  <button class ="btn btn-lg btn-primary" ng-mouseover="hoverBuzzed()" ng-mouseleave="hoverOutBuzzed()">Buzzed</button>
+  <button class ="btn btn-lg btn-info" ng-mouseover="hoverTipsy()" ng-mouseleave="hoverOutTipsy()">Tipsy</button>
+  <button class="btn btn-lg btn-warning" ng-mouseover="hoverDrunk()" ng-mouseleave="hoverOutDrunk()">Drunk</button>
+  <button class ="btn btn-lg btn-danger" ng-mouseover ="hoverHammered()" ng-mouseleave="hoverOutHammered()">Hammered</button>
+
+<!--block of messages for the hover-over text descriptions of the stages of drunkedness -->
+
+  <span ng-show="hoverBuzzedmsg"><h3>JUST A WARM FUZZY FEELING AND SLIGHTLY CHATTIER</h3></a></span>
+  <span ng-show="hoverTipsymsg"><h3>GETTING A LITTLE TOO CHATTY</h3></span>
+  <span ng-show="hoverDrunkmsg"><h3>YOU'RE DRUNK</h3></span>
+  <span ng-show="hoverHammeredmsg"><h3>TOTALLY WASTED</h3></span>
 </div>
 
 <br><br><br>
+
+<!--the row of drinks in emoji form with the amounts below -->
 
 <div class="drinkrow">
   <div class="col-sm-3"><img src = "https://www.emojibase.com/resources/img/emojis/apple/x1f37a.png.pagespeed.ic.BvtGLK8p4U.png" width="55" height="55"><h2>{{beeramt}}</h2></div>

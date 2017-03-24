@@ -3,10 +3,13 @@ const app = express();
 const bodyParser=require('body-parser');
 const yelp = require('yelp-fusion');
 
+var mykey = "_RYnQMuS-SXmXXHPqv6FJg";
+var secretkey = "HQF95f1UPAWfyfkUgbInQR76A4pKUpUeWGQ7DxBtBoZbrD9ZrSICiyHpkApkGgee";
+
 'use strict';
 
 
-const token = yelp.accessToken("nicetry", "scumbagz").then(response => {
+const token = yelp.accessToken(mykey, secretkey).then(response => {
 const client = yelp.client(response.jsonBody.access_token);
 
 console.log("App is up and running!");
@@ -40,10 +43,13 @@ app.get("/yelpresult", function(req, res) {
       console.log(response.jsonBody.reviews);
       //playing around with sending back reviews, couldn't get them to go together so w/e for this round
       var biz_reviews = response.jsonBody.reviews;
+
     })
 
     })
 
   })
+
+
 
 });

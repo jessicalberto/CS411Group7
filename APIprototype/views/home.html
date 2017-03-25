@@ -41,6 +41,7 @@
     }
     $scope.hoverOutHammered = function() {
       this.hoverHammeredmsg = false;
+
     }
 
   }]);
@@ -76,12 +77,13 @@
   <button class="btn btn-lg btn-warning" ng-mouseover="hoverDrunk()" ng-mouseleave="hoverOutDrunk()">Drunk</button>
   <button class ="btn btn-lg btn-danger" ng-mouseover ="hoverHammered()" ng-mouseleave="hoverOutHammered()">Hammered</button>
 
+
 <!--block of messages for the hover-over text descriptions of the stages of drunkedness -->
 
   <span ng-show="hoverBuzzedmsg"><h3>JUST A WARM FUZZY FEELING AND SLIGHTLY CHATTIER</h3></a></span>
   <span ng-show="hoverTipsymsg"><h3>GETTING A LITTLE TOO CHATTY</h3></span>
   <span ng-show="hoverDrunkmsg"><h3>YOU'RE DRUNK</h3></span>
-  <span ng-show="hoverHammeredmsg"><h3>TOTALLY WASTED</h3></span>
+  <span ng-show="hoverHammeredmsg"><h3>TOTALLY WASTED</h3><img src="http://i347.photobucket.com/albums/p449/shawtyjesshhicuhh/totally%20wasted_zpsiaqjmpe5.gif" border="0" alt=" photo totally wasted_zpsiaqjmpe5.gif"/></span>
 </div>
 
 <br><br><br>

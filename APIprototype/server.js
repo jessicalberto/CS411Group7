@@ -3,11 +3,7 @@ const app = express();
 const bodyParser=require('body-parser');
 const yelp = require('yelp-fusion');
 
-var mykey = "_RYnQMuS-SXmXXHPqv6FJg";
-var secretkey = "HQF95f1UPAWfyfkUgbInQR76A4pKUpUeWGQ7DxBtBoZbrD9ZrSICiyHpkApkGgee";
-
 'use strict';
-
 
 const token = yelp.accessToken(mykey, secretkey).then(response => {
 const client = yelp.client(response.jsonBody.access_token);

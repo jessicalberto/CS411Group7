@@ -47,8 +47,6 @@ app.get("/yelpresult", function(req, res) {
 
     })
 
-    var rere = JSON.parse(response);
-
     })
 
   })

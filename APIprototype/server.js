@@ -2,11 +2,38 @@ const express = require("express");
 const app = express();
 const bodyParser=require('body-parser');
 const yelp = require('yelp-fusion');
+const passport = require('passport');
+var Strategy = require('passport-twitter').Strategy;
+
+/*LOGIN FOR TWITTER OAUTH PASSPORT */
 
 var keys = require('./config');
 
 var myKey = keys.mykey;
 var secretKey= keys.secretkey;
+var myconsumerKey = keys.twitterkey;
+var myconsumerSecret = keys.twittersecret;
+
+passport.use(new Strategy ({
+  consumerKey: myconsumerKey,
+  consumerSecret: myconsumerSecret,
+  callbackURL:'http://localhost:8000/'
+},
+  function(token, tokenSecret, profile, cb) {
+    console.log("user made it to this stage of function!");
+    return cb(null, profile);
+  }));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+app.use(require('express-session')({secret: 'placeholder', resave: true, saveUninitialized:true}));
+
 
 'use strict';
 
@@ -24,6 +51,11 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/views/home.html");
 });
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get("/login/twitter",
+  passport.authenticate('twitter'));
 
 app.get("/yelpresult", function(req, res) {
   console.log("SEARCH = " + req.query.search);

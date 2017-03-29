@@ -11,14 +11,14 @@ var keys = require('./config');
 
 var myKey = keys.mykey;
 var secretKey= keys.secretkey;
-//var myconsumerKey = keys.twitterkey;
-//var myconsumerSecret = keys.twittersecret;
+var myconsumerKey = keys.consumerKey;
+var myconsumerSecret = keys.consumerSecret;
 
 //Using the npm package of passport/twitter strategy to setup our Twitter oauth
 
 passport.use(new Strategy ({
-  consumerKey: "help",
-  consumerSecret: "jessica",
+  consumerKey: myconsumerKey,
+  consumerSecret: myconsumerSecret,
   callbackURL:'http://localhost:8000/' //this represents the callback URL after successful oauth, where twitter redirects the user to
 },//not so sure about shit below ,but it works
   function(token, tokenSecret, profile, cb) {

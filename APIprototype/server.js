@@ -19,8 +19,11 @@ var myconsumerSecret = keys.consumerSecret;
 passport.use(new Strategy ({
   consumerKey: myconsumerKey,
   consumerSecret: myconsumerSecret,
-  callbackURL:'http://localhost:8000/' //this represents the callback URL after successful oauth, where twitter redirects the user to
-},//not so sure about shit below ,but it works
+  callbackURL:'http://localhost:8000/'
+//this represents the callback URL after successful oauth, where twitter redirects the user to
+},
+
+//not so sure about shit below ,but it works
   function(token, tokenSecret, profile, cb) {
     console.log("user made it to this stage of function!");
     return cb(null, profile);

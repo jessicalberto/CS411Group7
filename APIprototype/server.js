@@ -126,11 +126,11 @@ app.get("/yelpresult", function(req, res) {
       }
 
       business_string = businessarray.join("<br />");
-      res.send(JSON.stringify(business_string));
 
-      //res.send(JSON.stringify(businessarray));
+      res.render(__dirname + "/views/test.ejs", { business_string});
 
-      //res.send(response.jsonBody.businesses[0]);
+      //this is working, but just testing EJS
+      //res.send(JSON.stringify(business_string));
 
     client.reviews(biz_id).then (response => {
       //console.log(response.jsonBody.reviews);

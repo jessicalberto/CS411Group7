@@ -87,11 +87,34 @@ app.get("/yelpresult", function(req, res) {
       var tophit = response.jsonBody.businesses[0].name;
       var biz_id = response.jsonBody.businesses[0].id;
 
+
+      console.log("***BUSINESSES***");
+      //console.log(response.jsonBody.businesses);
+      //console.log("# of businesses: " + response.jsonBody.total);
       //we're sending just back to first business that we get with the result with all the params
-      res.send(response.jsonBody.businesses[0]);
+
+      var businessarray = new Array();
+      var title = 'Top 10 Bar Results';
+      businessarray.push(title);
+      businessarray.push("");
+
+      for (x = 0; x < 10; x++) {
+        console.log(response.jsonBody.businesses[x].name);
+        businessarray.push(response.jsonBody.businesses[x].name.bold());
+        businessarray.push("Reviews: " + response.jsonBody.businesses[x].review_count);
+        businessarray.push("Average Rating: " + response.jsonBody.businesses[x].rating + " stars");
+        businessarray.push("");
+      }
+
+      business_string = businessarray.join("<br />");
+      res.send(JSON.stringify(business_string));
+
+      //res.send(JSON.stringify(businessarray));
+
+      //res.send(response.jsonBody.businesses[0]);
 
     client.reviews(biz_id).then (response => {
-      console.log(response.jsonBody.reviews);
+      //console.log(response.jsonBody.reviews);
       //playing around with sending back reviews, couldn't get them to go together so w/e for this round
       var biz_reviews = response.jsonBody.reviews;
 

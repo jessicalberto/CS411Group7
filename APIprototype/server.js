@@ -73,6 +73,25 @@ app.use(passport.session());
 app.get("/login/twitter",
   passport.authenticate('twitter'));
 
+//These are just my tests (Yishan)'s for embedded JS when we return data to front end
+
+app.get("/embeddedtest", function(req, res) {
+
+  var drinks = [
+    {name: "Blood Mary"},
+    {name: "Martini"},
+    {name: "Scotch"}
+  ];
+
+  var tagline = "IF I CHANGE THIS HERE";
+
+  res.render(__dirname + "/views/test.ejs", {
+    drinks: drinks,
+    tagline: tagline
+  });
+});
+
+
 //This is the Yelp API result after user fills out form and submits query
 
 app.get("/yelpresult", function(req, res) {

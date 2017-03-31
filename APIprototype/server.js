@@ -113,21 +113,16 @@ app.get("/yelpresult", function(req, res) {
       //we're sending just back to first business that we get with the result with all the params
 
       var businessarray = new Array();
-      var title = 'Top 10 Bar Results';
-      businessarray.push(title);
-      businessarray.push("");
 
       for (x = 0; x < 10; x++) {
         console.log(response.jsonBody.businesses[x].name);
-        businessarray.push(response.jsonBody.businesses[x].name.bold());
-        businessarray.push("Reviews: " + response.jsonBody.businesses[x].review_count);
-        businessarray.push("Average Rating: " + response.jsonBody.businesses[x].rating + " stars");
-        businessarray.push("");
+        businessarray.push(response.jsonBody.businesses[x].name + " || Average Rating: " + response.jsonBody.businesses[x].rating);
+        //businessarray.push("Reviews: " + response.jsonBody.businesses[x].review_count);
+        //businessarray.push("Average Rating: " + response.jsonBody.businesses[x].rating + " stars");
+        //businessarray.push("");
       }
-
-      business_string = businessarray.join("<br />");
-
-      res.render(__dirname + "/views/test.ejs", { business_string});
+      //console.log(businessarray);
+      res.render(__dirname + "/views/test.ejs", { businessarray});
 
       //this is working, but just testing EJS
       //res.send(JSON.stringify(business_string));

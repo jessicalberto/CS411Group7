@@ -83,11 +83,8 @@ app.get("/embeddedtest", function(req, res) {
     {name: "Scotch"}
   ];
 
-  var tagline = "IF I CHANGE THIS HERE";
-
   res.render(__dirname + "/views/test.ejs", {
     drinks: drinks,
-    tagline: tagline
   });
 });
 

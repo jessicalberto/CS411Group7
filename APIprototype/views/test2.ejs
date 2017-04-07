@@ -1,3 +1,15 @@
+<!--  Test2.ejs is a bad name, so we'll likely just rename this to something more fitting.
+J and I for the database's if else statement, instead of returning one page and have to deal with
+conflicting data being passed, we figured it was easier just to split to two views.  One view that appears
+for the if case, the other for the else case.
+
+"Like ERB, JavaScript between <% %> is executed. JavaScript between <%= %>
+adds HTML to the result." explains the basic principle of how this works.
+
+We kept the same header as all our HTML pages and are just listing out
+each of the data in their own bullet point.
+ -->
+
 <html lang ="en">
 <head>
   <html lang = "en-US">
@@ -11,8 +23,6 @@
 
 <h2>Displaying the Top 3 Local Results:</h2>
 
-  <!--Like ERB, JavaScript between <% %> is executed. JavaScript between <%= %>
-  adds HTML to the result. -->
   <h3><%= JSON.stringify(result[0].restaurant1)%></h3>
     <ul>
       <li><%= JSON.stringify(result[0].rating1)%></li>

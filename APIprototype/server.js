@@ -6,15 +6,30 @@ const passport = require('passport');
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://yishan:password@ds161029.mlab.com:61029/usersweightdrink')
+mongoose.connect('mongodb://yishan:dosequis@ds161029.mlab.com:61029/usersweightdrink')
 var db = mongoose.connection;
 
 var Schema = mongoose.Schema;
 var resultSchema = new Schema({
   queryterm: String,
   querylocation: String,
-  resultlist: String
+  //Restaurant 1
+  restaurant1: String, 
+  rating1: String, 
+  address1: String,
+  //Restaurant 2
+  restaurant2: String, 
+  rating2: String, 
+  address2: String,
+  //Restaurant 3
+  restaurant3: String, 
+  rating3: String, 
+  address3: String
 });
+
+
+
+
 
 var result = mongoose.model('result', resultSchema);
 
@@ -134,32 +149,51 @@ app.get("/yelpresult", function(req, res) {
       console.log("Location: " + setresp.businesses[0].location.address1);
       console.log("Price Level: " + setresp.businesses[0].price);
 
-      var businessarray = new Array();
-      businessarray.push(req.query.search);
-      businessarray.push(req.query.location);
+   //  var businessarray = new Array();
+    //  businessarray.push(req.query.search);
+     // businessarray.push(req.query.location);
 
-      var resultbody = "Name: " + setresp.businesses[0].name + " Rating: " + setresp.businesses[0].rating
-      + " Address: " + setresp.businesses[0].address1;
+        // RESTAURANT 1
+        var result1 = " Name: " + setresp.businesses[0].name; 
+        var rate1 = " Rating: " + setresp.businesses[0].rating;
+        var location1 = " Location: " + setresp.businesses[0].location.address1; 
 
-      for (x = 1; x <= 2; x++) {
+        // RESTAURANT 2
+        var result2 = " Name: " + setresp.businesses[1].name; 
+        var rate2 = " Rating: " + setresp.businesses[1].rating;
+        var location2 = " Location: " + setresp.businesses[1].location.address1; 
 
-        resultbody = " || Name: " + setresp.businesses[x].name + " Rating: " + setresp.businesses[x].rating
-        + " Location: " + setresp.businesses[x].location.address1 + resultbody;
+        // RESTAURANT 3
+        var result3 = " Name: " + setresp.businesses[2].name; 
+        var rate3 = " Rating: " + setresp.businesses[2].rating;
+        var location3 = " Location: " + setresp.businesses[2].location.address1; 
 
-      }
 
-      businessarray.push(resultbody);
+     // businessarray.push(resultbody);
 
-      console.log("***resultbody*** = " + resultbody);
+      //console.log("***resultbody*** = " + resultbody);
 
       db.collection("results").insert({
         queryterm: req.query.search,
         querylocation: req.query.location,
-        resultlist: resultbody,
+        restaurant1: result1, 
+        rating1: rate1, 
+        address1: location1,
+        //Restaurant 2
+        restaurant2: result2, 
+        rating2: rate2, 
+        address2: location2,
+        //Restaurant 3
+        restaurant3: result3, 
+        rating3: rate3, 
+        address3: location3
+
+
       });
 
+      console.log("INSERT SUCCESSFUL");
       //console.log(businessarray);
-      res.render(__dirname + "/views/test.ejs", { resultbody});
+      //res.render(__dirname + "/views/test.ejs", { });
 
       //this is working, but just testing EJS
       //res.send(JSON.stringify(business_string));
@@ -174,7 +208,5 @@ app.get("/yelpresult", function(req, res) {
     })
 
   })
-
-
 
 });

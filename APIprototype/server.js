@@ -3,6 +3,21 @@ const app = express();
 const bodyParser=require('body-parser');
 const yelp = require('yelp-fusion');
 const passport = require('passport');
+
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://yishan:password@ds161029.mlab.com:61029/usersweightdrink')
+var db = mongoose.connection;
+
+var Schema = mongoose.Schema;
+var resultSchema = new Schema({
+  queryterm: String,
+  querylocation: String,
+  resultlist: String
+});
+
+var result = mongoose.model('result', resultSchema);
+
 var Strategy = require('passport-twitter').Strategy;
 
 /*LOGIN FOR TWITTER OAUTH PASSPORT */
@@ -104,22 +119,47 @@ app.get("/yelpresult", function(req, res) {
       var biz_id = response.jsonBody.businesses[0].id;
 
 
-      console.log("***BUSINESSES***");
+      console.log("***FIRST THREE BUSINESS RESULTS***");
       //console.log(response.jsonBody.businesses);
       //console.log("# of businesses: " + response.jsonBody.total);
       //we're sending just back to first business that we get with the result with all the params
 
-      var businessarray = new Array();
+      //for formatting purposes, beats repeating shit every time
+      var setresp = response.jsonBody;
 
-      for (x = 0; x < 10; x++) {
-        console.log(response.jsonBody.businesses[x].name);
-        businessarray.push(response.jsonBody.businesses[x].name + " || Average Rating: " + response.jsonBody.businesses[x].rating);
-        //businessarray.push("Reviews: " + response.jsonBody.businesses[x].review_count);
-        //businessarray.push("Average Rating: " + response.jsonBody.businesses[x].rating + " stars");
-        //businessarray.push("");
+      console.log("**Query search = " + req.query.search);
+      console.log("**Query location = " + req.query.location);
+      console.log("Name 1: " + setresp.businesses[0].name);
+      console.log("Rating: " + setresp.businesses[0].rating);
+      console.log("Location: " + setresp.businesses[0].location.address1);
+      console.log("Price Level: " + setresp.businesses[0].price);
+
+      var businessarray = new Array();
+      businessarray.push(req.query.search);
+      businessarray.push(req.query.location);
+
+      var resultbody = "Name: " + setresp.businesses[0].name + " Rating: " + setresp.businesses[0].rating
+      + " Address: " + setresp.businesses[0].address1;
+
+      for (x = 1; x <= 2; x++) {
+
+        resultbody = " || Name: " + setresp.businesses[x].name + " Rating: " + setresp.businesses[x].rating
+        + " Location: " + setresp.businesses[x].location.address1 + resultbody;
+
       }
+
+      businessarray.push(resultbody);
+
+      console.log("***resultbody*** = " + resultbody);
+
+      db.collection("results").insert({
+        queryterm: req.query.search,
+        querylocation: req.query.location,
+        resultlist: resultbody,
+      });
+
       //console.log(businessarray);
-      res.render(__dirname + "/views/test.ejs", { businessarray});
+      res.render(__dirname + "/views/test.ejs", { resultbody});
 
       //this is working, but just testing EJS
       //res.send(JSON.stringify(business_string));

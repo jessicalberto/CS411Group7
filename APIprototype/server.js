@@ -6,7 +6,7 @@ const passport = require('passport');
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://yishan:dosequis@ds161029.mlab.com:61029/usersweightdrink')
+mongoose.connect('mongodb://yishan:password@ds161029.mlab.com:61029/usersweightdrink')
 var db = mongoose.connection;
 
 var Schema = mongoose.Schema;
@@ -26,6 +26,7 @@ var resultSchema = new Schema({
   rating3: String,
   address3: String
 });
+
 
 var result = mongoose.model('result', resultSchema);
 
@@ -121,6 +122,7 @@ const token = yelp.accessToken(myKey, secretKey).then(response => {
 
     console.log("SEARCH = " + req.query.search);
     console.log("LOCATION = " + req.query.location);
+
 
     db.collection("results").find( {queryterm: req.query.search, querylocation: req.query.location}).toArray(function(err, result) {
       if (result != "") {

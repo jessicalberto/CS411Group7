@@ -1,3 +1,17 @@
+<!-- For anyone who's looking for something to do, I would definitely recommend
+this.  Migrating the <script> over to a separate file/directory so thatt
+this web page can be purely HTMl, easier for development and organization.
+
+Secondly would be calculating the BAC levels.  Much of this coding will
+likely happen in Angular, but we do need to code into BAC levels, meaning
+that, based on which "drunk stage button" the user clicks (buzzed/tipsy/drunk/hammered),
+the # of drinks displayed updates in real time (no refreshing, thus need for Angular).
+
+So if someone wants to get hammered, then maybe all the drinks say 4+.  And at the same time
+document the height/weight diffs as that affects BAC.
+
+We likely won't do height, mostly weight and gender, so that's something to keep in mind. -->
+
 <head>
   <html lang = "en-US">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -6,7 +20,10 @@
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 </head>
 
-<!-- controller later to be migrated in separate file -->
+<!-- controller later to be migrated in separate file, so need to move
+this <script> body into a separate folder called controller.js, and then
+just add it as a link rel ^ in head, probably should do this soon, as this
+section is getting very bloated. -->
 
 <script>
 

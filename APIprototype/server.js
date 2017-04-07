@@ -41,14 +41,17 @@ var resultSchema = new Schema({
   restaurant1: String,
   rating1: String,
   address1: String,
+  photo1: String,
   //Restaurant 2
   restaurant2: String,
   rating2: String,
   address2: String,
+  photo2: String,
   //Restaurant 3
   restaurant3: String,
   rating3: String,
-  address3: String
+  address3: String,
+  photo3: String
 });
 
 var result = mongoose.model('result', resultSchema);
@@ -203,16 +206,20 @@ const token = yelp.accessToken(myKey, secretKey).then(response => {
           var result1 = " Name: " + setresp.businesses[0].name;
           var rate1 = " Rating: " + setresp.businesses[0].rating;
           var location1 = " Location: " + setresp.businesses[0].location.display_address;
+          // testing photo addition
+          var image1 = "Image URL: " + setresp.businesses[0].image_url;
 
           // Storing the data/results from the first result (RESTAURANT/BAR 2)
           var result2 = " Name: " + setresp.businesses[1].name;
           var rate2 = " Rating: " + setresp.businesses[1].rating;
           var location2 = " Location: " + setresp.businesses[1].location.display_address;
+          var image2 = "Image URL: " + setresp.businesses[1].image_url;
 
           // Storing the data/results from the first result (RESTAURANT/BAR 3)
           var result3 = " Name: " + setresp.businesses[2].name;
           var rate3 = " Rating: " + setresp.businesses[2].rating;
           var location3 = " Location: " + setresp.businesses[2].location.display_address;
+          var image3 = "Image URL: " + setresp.businesses[2].image_url;
 
           /*This is the built-in method for inserting things into our database.  So since we
           have already parsed our results from the API result into its own variable, we can just
@@ -229,14 +236,17 @@ const token = yelp.accessToken(myKey, secretKey).then(response => {
             restaurant1: result1,
             rating1: rate1,
             address1: location1,
+            photo1: image1,
             //Restaurant 2
             restaurant2: result2,
             rating2: rate2,
             address2: location2,
+            photo2: image2,
             //Restaurant 3
             restaurant3: result3,
             rating3: rate3,
-            address3: location3
+            address3: location3,
+            photo3: image3
           });
 
           //Logging to confirm that the insertion in db is successful.
@@ -244,7 +254,7 @@ const token = yelp.accessToken(myKey, secretKey).then(response => {
 
           //Thus, render this new page, test.ejs, and pass in all these data vars so that we may display
           //them on the front end
-          res.render(__dirname + "/views/test.ejs", { result1,rate1,location1,result2,rate2,location2,result3,rate3,location3});
+          res.render(__dirname + "/views/test.ejs", { result1,rate1,location1, image1,result2,rate2,location2,image2,result3,rate3,location3, image3});
 
           //Currently not doing anything with reviews, this is just a block of code just to play around with,
           //but it currently doesn't do anything.

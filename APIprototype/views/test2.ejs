@@ -1,0 +1,33 @@
+<html lang ="en">
+<head>
+  <html lang = "en-US">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+</head>
+
+<body>
+
+<h2>Displaying the Top 3 Local Results:</h2>
+
+  <!--Like ERB, JavaScript between <% %> is executed. JavaScript between <%= %>
+  adds HTML to the result. -->
+  <h3><%= JSON.stringify(result[0].restaurant1)%></h3>
+    <ul>
+      <li><%= JSON.stringify(result[0].rating1)%></li>
+      <li><%= JSON.stringify(result[0].address1)%></li>
+    </ul>
+
+  <h3><%= JSON.stringify(result[0].restaurant2)%></h3>
+    <ul>
+      <li><%= JSON.stringify(result[0].rating2)%></li>
+      <li><%= JSON.stringify(result[0].address2)%></li>
+    </ul>
+
+    <h3><%= JSON.stringify(result[0].restaurant3)%></h3>
+      <ul>
+        <li><%= JSON.stringify(result[0].rating3)%></li>
+        <li><%= JSON.stringify(result[0].address3)%></li>
+    </ul>
+</body>

@@ -1,12 +1,17 @@
 #!/usr/bin/python
-from flask import Flask, render_template
+from flask import Flask, Response, render_template, redirect, url_for, send_from_directory, session
 from app import app
 import argparse
 import json
 import pprint
-import requests
 import sys
 import urllib
+import requests
+import os
+from urllib import quote
+from urllib import urlencode
+
+
 #for login
 from flask_wtf import Form
 from wtforms import StringField, BooleanField
@@ -14,19 +19,35 @@ from wtforms.validators import DataRequired
 from flask import render_template, flash, redirect
 from app import app
 from .forms import LoginForm
+from flask_oauth import OAuth
+from flask_googlemaps import GoogleMaps
+from flask_googlemaps import Map
 
-from urllib.error import HTTPError
-from urllib.parse import quote
-from urllib.parse import urlencode
+#from urllib.parse import quote
+#from urllib.parse import urlencode
 
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017)
+# make a database called saved
+db = client.saved
+# yelp search database
+saved_search = db.saved
+# user names database
+#users = db.users
 
 class LoginForm(Form):
-    openid = StringField('openid', validators=[DataRequired()])
+    username = StringField('username', validators=[DataRequired()])
+    password = StringField('password', validators=[DataRequired()])
     remember_me = BooleanField('remember_me', default=False)
 
 class SearchForm(Form):
     search_term = StringField('name', validators=[DataRequired()])
     location = StringField('location', validators=[DataRequired()])
+
+class RegisterForm(Form):
+    username = StringField('username', validators=[DataRequired()])
+    password = StringField('password', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired()])
 
 # API constants, you shouldn't have to change these.
 API_HOST = 'https://api.yelp.com'
@@ -38,10 +59,22 @@ GRANT_TYPE = 'client_credentials'
 CLIENT_ID = app.config['CLIENT_ID']
 CLIENT_SECRET = app.config['CLIENT_SECRET']
 
-# Defaults for our simple example.
-DEFAULT_TERM = 'dinner'
-DEFAULT_LOCATION = 'San Francisco, CA'
+GOOGLEMAPS_KEY = app.config['GOOGLEMAPS_KEY']
+
+FACEBOOK_APP_ID = app.config["FACEBOOK_APP_ID"]
+FACEBOOK_APP_SECRET = app.config["FACEBOOK_APP_SECRET"]
+
 SEARCH_LIMIT = 5
+oauth = OAuth()
+facebook = oauth.remote_app('facebook',
+    base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    consumer_key=FACEBOOK_APP_ID,
+    consumer_secret= FACEBOOK_APP_SECRET,
+    request_token_params={'scope': 'email'}
+)
 
 @app.route('/')
 @app.route('/index')
@@ -51,35 +84,170 @@ def index():
                             title='Home')
 
 @app.route('/search', methods=['GET','POST'])
-def yelp_search():
+def search():
      form = SearchForm()
+     # in the database
      if form.validate_on_submit():
-        #  flash('Searched for "%s", in %s' %
-        #        (form.search_term.data, form.location.data))
+
          search_term = form.search_term.data
          location = form.location.data
-         results = query_api(search_term, location)#query_api(search_term, location)
-         return render_template('index.html',
-                                title='Search',
-                                results = results,
-                                )
+         x_results = saved_search.find_one({"search":search_term})
+         if(x_results):
+             print("already in the database")
+             return render_template('results.html',
+                            search_term = search_term,
+                            results = x_results)
+         else:
+            print("not in the database yet")
+            results = query_api(search_term, location)#query_api(search_term, location)
+            new_post = {"search": search_term,
+                            "rest1":results[1],
+                            "rest2": results[2],
+                            "rest3": results[3],
+                            "rest4": results[4]}
+            saved_search.insert(new_post)#.inserted_id
+            ##zz = saved_search.find_one({"search": search_term})
+            return render_template('index.html',
+                            search_term = search_term,
+                            results = results)
 
      return render_template('search.html',
                             title='Search',
-                            form = form,
-                            )
+                            form = form)
+
 
 # index view function suppressed for brevity
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Login requested for Openid="%s", remember_me=%s' %
-              (form.openid.data, str(form.remember_me.data)))
-        return redirect('/index')
+        username = form.username.data
+        password = form.password.data
+        find_user = users.find_one({"username":username})
+        if(find_user):
+            print("user already registed in the database")
+            return redirect(url_for("facebook_login"))
+
+        else:
+            print("user name not in the database yet")
+            return "<a href='/login'>Try again</a>\
+                    </br><a href='/register'>or make an account</a>"
+
     return render_template('login.html',
                            title='Sign In',
                            form=form)
+
+@app.route("/register", methods=['GET','POST'])
+def register_user():
+    form = RegisterForm()
+    username = form.username.data
+    password = form.password.data
+    email = form.email.data
+    test =  isEmailUnique(email)
+    if test:
+        new_post = {
+            "username":username,
+            "password":password,
+            "email": email
+        }
+        users.insert_one(new_post).inserted_id
+        return redirect(url_for("facebook_login"))
+    else:
+        print("couldn't find all tokens")
+        return render_template('register.html',
+                                title='Register',
+                                form = form)
+
+    return render_template('register.html',
+                            title='Register',
+                            form = form)
+
+def isEmailUnique(email):
+    #use this to check if a email has already been registered
+    find_user = users.find_one({"email":email})
+    if find_user:
+        #this means there are greater than zero entries with that email
+        return False
+    else:
+        return True
+
+# facebook stuff
+@facebook.tokengetter
+def get_facebook_token():
+    return session.get('facebook_token')
+
+def pop_login_session():
+    session.pop('logged_in', None)
+    session.pop('facebook_token', None)
+
+@app.route("/facebook_login")
+def facebook_login():
+    return facebook.authorize(callback=url_for('/facebook_authorized',next=request.args.get('next'), _external=True))
+
+@app.route("/facebook_authorized")
+@facebook.authorized_handler
+def facebook_authorized(resp):
+    next_url = request.args.get('next') or url_for('index')
+    if resp is None or 'access_token' not in resp:
+        return redirect(next_url)
+    session['logged_in'] = True
+    session['facebook_token'] = (resp['access_token'], '')
+
+    return  redirect(flask.url_for('mapview'))
+    #return flaskredirect(next_url,user_picture_url = get_facebook_profile_url(), user_info = getUserInfoFromId(uid))
+
+@app.route("/logout_facebooklogin")
+def logout_facebook():
+    pop_login_session()
+    return render_template('home_page_template.html', message="Logged out")
+
+#Querying information from facebook
+def get_facebook_name():
+	data = facebook.get('/me').data
+	print(data)
+	if 'id' in data and 'name' in data:
+		user_id = data['id']
+		user_name = data['name']
+		return user_name
+
+def get_facebook_friend_appuser():
+	data = facebook.get('/me?fields=friends{first_name,last_name}').data
+	print(data)
+	return data
+
+
+def get_facebook_profile_url():
+    data = facebook.get('/me?fields=picture{url}').data
+    if 'picture' in data:
+        print(data['picture'])
+        json_str = json.dumps(data['picture'])
+        resp = json.loads(json_str)
+        print("json object")
+        user_picture_url = data['picture']
+        return data['picture']['data']['url']
+
+
+## google maps
+GoogleMaps(app)
+#google map testing
+@app.route("/mapview")
+def mapview():
+    #u_fname=request.form.get('u_fname')
+    return render_template('maptest.html')
+
+@app.route("/map_unsafe")
+def map_unsafe():
+    return render_template('maptest.html')
+
+# getting coordinates back from the map marker the user placed
+@app.route("/data_googlemaps")
+def data():
+    lat_ = request.args.get("lat")
+    long_ = request.args.get("lng")
+    print("latitude is" +lat_)
+    print("long is " + long_)
+
+## yelp functionality
 
 def obtain_bearer_token(host, path):
     """Given a bearer token, send a GET request to the API.
@@ -145,7 +313,6 @@ def query_api(term, location):
     if not businesses:
         x = (u'No businesses for {0} in {1} found.'.format(term, location))
         return x
-
 
     business_id = businesses[0]['id']
 

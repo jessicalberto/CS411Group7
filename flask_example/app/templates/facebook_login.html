@@ -1,4 +1,3 @@
-<!-- extend from base layout -->
 <html lang="en">
   <head>
 
@@ -35,29 +34,34 @@
 
 
   </style>
+  <body>
 {% extends "base.html" %}
-<body>
 {% block content %}
-  <h1>Sign In</h1>
-  <form action="" method="post" name="login">
-      {{ form.hidden_tag() }}
-      <p>
-        Please enter your username:<br>
-        {{ form.username(size=80) }}<br>
-        {% for error in form.username.errors %}
-          <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-      Please enter your password:<br>
-      {{ form.password(size=80) }}<br>
-      {% for error in form.password.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-      {% endfor %}<br>
-  </p>
-      <p>{{ form.remember_me }} Remember Me</p>
-      <p><input type="submit" value="Sign In"></p>
-  </form>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '426344891059039',
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+  <h1>Login was sucessful!!</h1>
+  <p> welcome {{ username }} </p>
+
+
+  {% endblock %}
+
 </body>
-{% endblock %}
 </html>

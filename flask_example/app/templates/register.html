@@ -1,7 +1,7 @@
-<!-- extend from base layout -->
+<!DOCTYPE html>
 <html lang="en">
   <head>
-
+  	<title>Drinking App</title>
     <meta charset="utf-8">
     <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -20,44 +20,55 @@
   .form
   {
     padding-right: 50px;
-    padding-left: 50px;
-  }
-  h1{
-    padding-left: 1cm;
   }
 
   p {
-        padding-left: 1cm;
         font-family: 'Roboto', serif;
         font-size: 20px;
         font-weight: bold;
   }
 
-
   </style>
-{% extends "base.html" %}
-<body>
-{% block content %}
-  <h1>Sign In</h1>
+  {% extends "base.html" %}
+
+  <body>
+    {% block content %}
+
+  	<div class="jumbotron text-center">
+  		<h1>DrinkingApp</h1>
+  		<p>DrinkingApp Profile</p>
+	</div>
+  <div class="container">
+  <div class="row">
+  <p align="left" > New Profile</p>
+  <!-- form here -->
   <form action="" method="post" name="login">
-      {{ form.hidden_tag() }}
+      {{ form.hidden_tag() }} <!-- for security -->
       <p>
-        Please enter your username:<br>
+        Please create your username:<br>
         {{ form.username(size=80) }}<br>
         {% for error in form.username.errors %}
           <span style="color: red;">[{{ error }}]</span>
         {% endfor %}<br>
     </p>
     <p>
-      Please enter your password:<br>
+      Please create a password:<br>
       {{ form.password(size=80) }}<br>
       {% for error in form.password.errors %}
         <span style="color: red;">[{{ error }}]</span>
       {% endfor %}<br>
   </p>
-      <p>{{ form.remember_me }} Remember Me</p>
-      <p><input type="submit" value="Sign In"></p>
+  <p>
+    Please enter your email:<br>
+    {{ form.email(size=80) }}<br>
+    {% for error in form.password.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}<br>
+</p>
+      <p><input type="submit" value="Register"></p>
   </form>
-</body>
-{% endblock %}
-</html>
+</div>
+</div>
+  </body>
+  {% endblock %}
+  </html>

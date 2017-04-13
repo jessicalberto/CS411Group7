@@ -1,0 +1,123 @@
+<!-- For anyone who's looking for something to do, I would definitely recommend
+this.  Migrating the <script> over to a separate file/directory so thatt
+this web page can be purely HTMl, easier for development and organization.
+
+Secondly would be calculating the BAC levels.  Much of this coding will
+likely happen in Angular, but we do need to code into BAC levels, meaning
+that, based on which "drunk stage button" the user clicks (buzzed/tipsy/drunk/hammered),
+the # of drinks displayed updates in real time (no refreshing, thus need for Angular).
+
+So if someone wants to get hammered, then maybe all the drinks say 4+.  And at the same time
+document the height/weight diffs as that affects BAC.
+
+We likely won't do height, mostly weight and gender, so that's something to keep in mind. -->
+
+<head>
+  <html lang = "en-US">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+</head>
+
+<!-- controller later to be migrated in separate file, so need to move
+this <script> body into a separate folder called controller.js, and then
+just add it as a link rel ^ in head, probably should do this soon, as this
+section is getting very bloated. -->
+
+<script>
+
+  var myApp = angular.module("myApp", []);
+  myApp.controller("myAppCtrl", ["$scope", "$http", function($scope, $http) {
+
+    $scope.beeramt = 5;
+    $scope.wineamt = 3;
+    $scope.cocktailamt = 6;
+    $scope.exoticamt = 4;
+
+    $scope.hoverBuzzed = function() {
+      this.hoverBuzzedmsg = true;
+    }
+    $scope.hoverOutBuzzed = function() {
+      this.hoverBuzzedmsg = false;
+    }
+    $scope.hoverTipsy = function() {
+      this.hoverTipsymsg = true;
+    }
+    $scope.hoverOutTipsy = function() {
+      this.hoverTipsymsg = false;
+    }
+    $scope.hoverDrunk = function() {
+      this.hoverDrunkmsg = true;
+    }
+    $scope.hoverOutDrunk = function() {
+      this.hoverDrunkmsg = false;
+    }
+    $scope.hoverHammered = function() {
+      this.hoverHammeredmsg = true;
+    }
+    $scope.hoverOutHammered = function() {
+      this.hoverHammeredmsg = false;
+
+    }
+
+  }]);
+
+</script>
+
+<center>
+<a href="http://s347.photobucket.com/user/shawtyjesshhicuhh/media/ON9Z7LEJ_zpssgb7yb2e.gif.html" target="_blank"><img src="http://i347.photobucket.com/albums/p449/shawtyjesshhicuhh/ON9Z7LEJ_zpssgb7yb2e.gif" border="0" alt=" photo ON9Z7LEJ_zpssgb7yb2e.gif"/></a>
+</center>
+<!-- the actual HTML body --->
+
+<div ng-app="myApp" ng-controller="myAppCtrl">
+
+<body>
+<center>
+  <h1>Team 7 Drinking App</h1>
+  <h3><i class="em em-8ball"></i><i class="em em-kissing_closed_eyes"></i><i class="em em-see_no_evil"></i></h3>
+  <br>
+  <a href="http://localhost:8000/login/twitter"><img src="http://lanterns.buzz/images/sign-in-with-twitter.png" height="50"></a>
+  <br>
+<br>
+  <h3>Search for local places that offer your favorite drinks.</h3><br>
+  <h4>
+    <form action="/yelpresult" method="GET">
+      I'm looking for: <input type = "text" placeholder="bourbon, tequila..." name="search"><br><br>
+      Location: <input type="text" placeholder="boston, sf, seattle..." name="location"><br><br>
+      <button class = "btn btn-info btn-lg" input type="submit" value = "submit">Submit</button>
+    </form>
+  </h4>
+<br>
+
+<h3>How drunk are you looking to get tonight?</h3><br>
+
+<div class="drunkstages">
+  <button class ="btn btn-lg btn-primary" ng-mouseover="hoverBuzzed()" ng-mouseleave="hoverOutBuzzed()">Buzzed</button>
+  <button class ="btn btn-lg btn-info" ng-mouseover="hoverTipsy()" ng-mouseleave="hoverOutTipsy()">Tipsy</button>
+  <button class="btn btn-lg btn-warning" ng-mouseover="hoverDrunk()" ng-mouseleave="hoverOutDrunk()">Drunk</button>
+  <button class ="btn btn-lg btn-danger" ng-mouseover ="hoverHammered()" ng-mouseleave="hoverOutHammered()">Hammered</button>
+
+
+<!--block of messages for the hover-over text descriptions of the stages of drunkedness -->
+
+  <span ng-show="hoverBuzzedmsg"><h3>JUST A WARM FUZZY FEELING AND SLIGHTLY CHATTIER</h3></a></span>
+  <span ng-show="hoverTipsymsg"><h3>GETTING A LITTLE TOO CHATTY</h3></span>
+  <span ng-show="hoverDrunkmsg"><h3>YOU'RE DRUNK</h3></span>
+  <span ng-show="hoverHammeredmsg"><h3>TOTALLY WASTED</h3><img src="http://i347.photobucket.com/albums/p449/shawtyjesshhicuhh/totally%20wasted_zpsiaqjmpe5.gif" border="0" alt=" photo totally wasted_zpsiaqjmpe5.gif"/></span>
+</div>
+
+<br><br><br>
+
+<!--the row of drinks in emoji form with the amounts below -->
+
+<div class="drinkrow">
+  <div class="col-sm-3"><img src = "https://www.emojibase.com/resources/img/emojis/apple/x1f37a.png.pagespeed.ic.BvtGLK8p4U.png" width="55" height="55"><h2>{{beeramt}}</h2></div>
+  <div class="col-sm-3"><img src= "https://www.emojibase.com/resources/img/emojis/apple/x1f377.png.pagespeed.ic.Y4pP3pJvP7.png" width="55" height="55"><h2>{{wineamt}}</h2></div>
+  <div class="col-sm-3"><img src= "http://emojipedia-us.s3.amazonaws.com/cache/75/b5/75b5b7de7d3fbd44b5463325f21e3f84.png" width="55" height="55"><h2>{{cocktailamt}}</h2></div>
+  <div class="col-sm-3"><img src="http://emojipedia-us.s3.amazonaws.com/cache/8d/a0/8da04eba0f33cdcc0a503b48b708d548.png" width="55" height="55"><h2>{{exoticamt}}</h2></div>
+</div>
+
+</center>
+</body>
+</div>

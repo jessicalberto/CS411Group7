@@ -9,3 +9,8 @@ Notes:
 master branch -- final demonstration development <br/>
 APIbranch -- API developer branch <br/>
 flaskExample -- Data developer branch <br/>
+  --> to run flaskExample
+  --> requirements.txt coming soon~ 
+  --> start mongo: sudo mongod
+  --> python2 run2.py
+

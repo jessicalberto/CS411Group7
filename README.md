@@ -7,5 +7,5 @@ Our website application will be any college kid’s ideal, all-inclusive app for
 
 Notes: 
 master branch -- final demonstration development <br/>
-APIbranch -- primary developer branch <br/>
-flaskExample -- python implementation <br/>
+APIbranch -- API developer branch <br/>
+flaskExample -- Data developer branch <br/>

@@ -1,15 +1,12 @@
 <!-- For anyone who's looking for something to do, I would definitely recommend
 this.  Migrating the <script> over to a separate file/directory so thatt
 this web page can be purely HTMl, easier for development and organization.
-
 Secondly would be calculating the BAC levels.  Much of this coding will
 likely happen in Angular, but we do need to code into BAC levels, meaning
 that, based on which "drunk stage button" the user clicks (buzzed/tipsy/drunk/hammered),
 the # of drinks displayed updates in real time (no refreshing, thus need for Angular).
-
 So if someone wants to get hammered, then maybe all the drinks say 4+.  And at the same time
 document the height/weight diffs as that affects BAC.
-
 We likely won't do height, mostly weight and gender, so that's something to keep in mind. -->
 
 <head>
@@ -26,15 +23,12 @@ just add it as a link rel ^ in head, probably should do this soon, as this
 section is getting very bloated. -->
 
 <script>
-
   var myApp = angular.module("myApp", []);
   myApp.controller("myAppCtrl", ["$scope", "$http", function($scope, $http) {
-
     $scope.beeramt = 5;
     $scope.wineamt = 3;
     $scope.cocktailamt = 6;
     $scope.exoticamt = 4;
-
     $scope.hoverBuzzed = function() {
       this.hoverBuzzedmsg = true;
     }
@@ -58,20 +52,28 @@ section is getting very bloated. -->
     }
     $scope.hoverOutHammered = function() {
       this.hoverHammeredmsg = false;
-
     }
-
   }]);
-
+</script>
+<script>
+function w3_open() {
+  document.getElementById("main").style.marginLeft = "25%";
+  document.getElementById("mySidebar").style.width = "25%";
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("openNav").style.display = 'none';
+}
+function w3_close() {
+  document.getElementById("main").style.marginLeft = "0%";
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("openNav").style.display = "inline-block";
+}
 </script>
 
 <center>
 <a href="http://s347.photobucket.com/user/shawtyjesshhicuhh/media/UnJIsXuL_zpsxpj4fwd9.gif.html" target="_blank"><img src="http://i347.photobucket.com/albums/p449/shawtyjesshhicuhh/UnJIsXuL_zpsxpj4fwd9.gif" border="0" alt=" photo UnJIsXuL_zpsxpj4fwd9.gif"/></a>
 </center>
 <!-- the actual HTML body --->
-
 <div ng-app="myApp" ng-controller="myAppCtrl">
-
 <style>
   .bordered {
     width: 400px;
@@ -80,7 +82,6 @@ section is getting very bloated. -->
     border: 2px solid black;
   }
 </style>
-
 <body>
 <center>
   <font face="Century Gothic"><h1>Team 7 Drinking App</h1></font>
@@ -99,16 +100,12 @@ section is getting very bloated. -->
     </form>
     </div>
 <br>
-
 <h3>How drunk are you looking to get tonight?</h3><br>
-
 <div class="drunkstages">
   <button class ="btn btn-lg btn-primary" ng-mouseover="hoverBuzzed()" ng-mouseleave="hoverOutBuzzed()">Buzzed</button>
   <button class ="btn btn-lg btn-info" ng-mouseover="hoverTipsy()" ng-mouseleave="hoverOutTipsy()">Tipsy</button>
   <button class="btn btn-lg btn-warning" ng-mouseover="hoverDrunk()" ng-mouseleave="hoverOutDrunk()">Drunk</button>
   <button class ="btn btn-lg btn-danger" ng-mouseover ="hoverHammered()" ng-mouseleave="hoverOutHammered()">Hammered</button>
-
-
 <!--block of messages for the hover-over text descriptions of the stages of drunkedness -->
 
   <span ng-show="hoverBuzzedmsg"><h3>JUST A WARM FUZZY FEELING AND SLIGHTLY CHATTIER</h3></a></span>

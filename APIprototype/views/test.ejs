@@ -2,10 +2,8 @@
 J and I for the database's if else statement, instead of returning one page and have to deal with
 conflicting data being passed, we figured it was easier just to split to two views.  One view that appears
 for the if case, the other for the else case.
-
 "Like ERB, JavaScript between <% %> is executed. JavaScript between <%= %>
 adds HTML to the result." explains the basic principle of how this works.
-
 We kept the same header as all our HTML pages and are just listing out
 each of the data in their own bullet point.
  -->
@@ -21,23 +19,39 @@ each of the data in their own bullet point.
 
 <body>
 
+<center>
+<a href="http://s347.photobucket.com/user/shawtyjesshhicuhh/media/UnJIsXuL_zpsxpj4fwd9.gif.html" target="_blank"><img src="http://i347.photobucket.com/albums/p449/shawtyjesshhicuhh/UnJIsXuL_zpsxpj4fwd9.gif" border="0" alt=" photo UnJIsXuL_zpsxpj4fwd9.gif"/></a>
+
+<br/>
+
 <h2>Displaying the Top 3 Local Results:</h2>
 
-  <h3><%= result1%></h3>
+</center>
+
+  <FONT COLOR="#000080"><h3><%= result1%></h3></FONT>
+  <img src="<%= image1%>" border="0" alt=" photo yelp1.jpg" width="250" height="200" />
   <ul>
+    <b><%= result1%></b>
     <li><%= rate1%> stars</li>
-    <li><%= location1%></li>
+    <li><%= priceRange1%></li>
+    <li><%= location1%></li> 
   </ul>
 
-  <h3><%= result2%></h3>
+  <FONT COLOR="#000080"><h3><%= result2%></h3></FONT>
+  <img src="<%= image2%>" border="0" alt=" photo yelp2.jpg" width="250" height="200"/>
   <ul>
-    <li><%= rate2%></li>
+    <b><%= result2%></b>
+    <li><%= rate2%> stars</li>
+    <li><%= priceRange2%></li>
     <li><%= location2%></li>
   </ul>
 
-  <h3><%= result3%></h3>
+ <FONT COLOR="#000080"><h3><%= result3%></h3></FONT>
+  <img src="<%= image3%>" border="0" alt=" photo yelp3.jpg" width="250" height="200"/>
   <ul>
-    <li><%= rate3%></li>
+  <b><%= result3%></b>
+    <li><%= rate3%> stars</li>
+    <li><%= priceRange3%></li>
     <li><%= location3%></li>
   </ul>
 

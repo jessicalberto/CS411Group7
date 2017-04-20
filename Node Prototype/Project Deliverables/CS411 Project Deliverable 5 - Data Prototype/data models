@@ -1,0 +1,8 @@
+
+So for this example we used a document-based data store, MongoDB. So for our yelp search fields, the data is stored in this JSON format:
+
+{u'search': u'bars', u'rest3': [u'drink-boston', u'Drink', u'https://s3-media4.fl.yelpcdn.com/bphoto/j32zPQjRn2AsdGGMoyv04A/o.jpg', u'$$$', u'4.0'], u'rest2': [u'yvonnes-boston', u"Yvonne's", u'https://s3-media1.fl.yelpcdn.com/bphoto/90APKneSvVTf6QXt4KUyiQ/o.jpg', u'$$$', u'4.0'], u'rest1': [u'lolita-cocina-and-tequila-bar-boston-2', u'Lolita Cocina & Tequila Bar', u'https://s3-media3.fl.yelpcdn.com/bphoto/VlNwiC3KdAmFaj1my6jzkQ/o.jpg', u'$$', u'4.0'], u'rest4': [u'grandten-distilling-boston', u'GrandTen Distilling', u'https://s3-media2.fl.yelpcdn.com/bphoto/MOIMe60yXqzwEEN-OyUupg/o.jpg', u'$$', u'5.0'], u'_id': ObjectId('58e93ff3c3e03ea2497ac8dc')}
+
+so you can see there are 5 objects: the top 5 results returned from the YELP Api. IN each restuarant feild is the yelp business name, the name of the place, its img url, the price, and the rating. The key for these objects is the search field, which in this case is bars.
+
+
